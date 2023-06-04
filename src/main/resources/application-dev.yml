@@ -23,3 +23,12 @@ spring:
       schema-locations: classpath*:/${database}/schema.sql
       data-locations: classpath*:/${database}/data.sql
       platform: h2
+  # Jpa Settings
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+    properties:
+      '[hibernate.default_batch_fetch_size]': 100
+      '[hibernate.format_sql]': true
+    show-sql: true
