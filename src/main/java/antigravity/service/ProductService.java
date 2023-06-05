@@ -72,7 +72,7 @@ public class ProductService {
     private void productCheck(Product productPS) {
         int price = productPS.getPrice();
 
-        if (price < 10000 && price > 10000000) {
+        if (price < 10000 || price > 10000000) {
             throw new CustomServerException("잘못된 상품 입니다.");
         }
     }
