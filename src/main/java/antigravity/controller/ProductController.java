@@ -22,7 +22,7 @@ import java.util.Map;
 @RequestMapping("/products")
 public class ProductController {
 
-    private final ProductService service;
+    private final ProductService productService;
 
     //상품 가격 추출 api
     @GetMapping("/amount")
@@ -33,7 +33,7 @@ public class ProductController {
 
         parameterValidation(productId, couponIds);
 
-        ProductAmountResponse response = service.getProductAmount(getParam(productId, couponIds));
+        ProductAmountResponse response = productService.getProductAmount(getParam(productId, couponIds));
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
