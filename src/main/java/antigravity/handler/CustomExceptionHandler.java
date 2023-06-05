@@ -20,6 +20,7 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<ResponseDto<String>> handleMissingParameterException(MissingServletRequestParameterException ex) {
+        log.error("handleMissingParameterException() ", ex);
         Map<String, String> errors = new HashMap<>();
         errors.put(ex.getParameterName(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto<>(-1, ex.getMessage(), ex.getParameterName()));
@@ -27,24 +28,26 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(NumberFormatException.class)
     public ResponseEntity<?> handleMethodArgumentTypeMismatch(NumberFormatException ex) {
+        log.error("handleMethodArgumentTypeMismatch() ", ex);
         String errorMessage = "잘못된 요청입니다. 숫자 값을 입력해야 합니다.";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto<>(-1, errorMessage, null));
     }
 
     @ExceptionHandler(CustomValidationException.class)
     public ResponseEntity<ResponseDto<String>> handleValidationException(CustomValidationException ex) {
+        log.error("handleValidationException() ", ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto<>(-1, ex.getMessage(), ex.getParameter()));
     }
 
     @ExceptionHandler(CustomApiException.class)
-    public ResponseEntity<?> apiException(CustomApiException e) {
-        log.error(e.getMessage());
-        return new ResponseEntity<>(new ResponseDto<>(-1, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> apiException(CustomApiException ex) {
+        log.error("apiException", ex);
+        return new ResponseEntity<>(new ResponseDto<>(-1, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseDto<String>> serverException(Exception e) {
-        log.error(e.getMessage());
+    public ResponseEntity<ResponseDto<String>> serverException(Exception ex) {
+        log.error("serverException", ex);
         return new ResponseEntity<>(new ResponseDto<>(-1, "서버 에러 입니다. 관리자에게 문의해주세요.", null), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
