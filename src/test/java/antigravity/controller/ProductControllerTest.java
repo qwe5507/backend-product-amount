@@ -59,24 +59,6 @@ class ProductControllerTest extends DummyObject {
         resultActions.andExpect(jsonPath("$.data").value("product_id"));
     }
 
-    @DisplayName("두번째 파라미터인 CouponId는 비어도 정상급액, 동일한 할인 금액을 리턴한다")
-    @Test
-    public void parameter_validation_empty2_check_test() throws Exception {
-        // given
-        String productId = "1";
-
-        // when
-        ResultActions resultActions = mvc.perform(get("/products/amount")
-                .queryParam("product_id", productId));
-
-        // then
-        resultActions.andExpect(status().isOk());
-        resultActions.andExpect(jsonPath("$.name").value("panties"));
-        resultActions.andExpect(jsonPath("$.originPrice").value(100000));
-        resultActions.andExpect(jsonPath("$.discountPrice").value(0));
-        resultActions.andExpect(jsonPath("$.finalPrice").value(100000));
-    }
-
     @DisplayName("파라미터가 숫자가 아닐때, 400에러와 함께 실패코드를 던진다.")
     @Test
     public void parameter_validation_value_check_test() throws Exception {
@@ -112,6 +94,64 @@ class ProductControllerTest extends DummyObject {
         resultActions.andExpect(jsonPath("$.code").value(-1));
         resultActions.andExpect(jsonPath("$.msg").value("couponId는 1이상 이어야 합니다."));
         resultActions.andExpect(jsonPath("$.data").value("couponId"));
+    }
+
+    @DisplayName("두번째 파라미터인 CouponId는 비어도 정상급액, 동일한 할인 금액을 리턴한다")
+    @Test
+    public void parameter_validation_empty2_check_test() throws Exception {
+        // given
+        String productId = "1";
+
+        // when
+        ResultActions resultActions = mvc.perform(get("/products/amount")
+                .queryParam("product_id", productId));
+
+        // then
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.name").value("panties"));
+        resultActions.andExpect(jsonPath("$.originPrice").value(100000));
+        resultActions.andExpect(jsonPath("$.discountPrice").value(0));
+        resultActions.andExpect(jsonPath("$.finalPrice").value(100000));
+    }
+
+    @DisplayName("하나의 couponId을 요청하면, 하나의 할인 금액만 적용 된다.")
+    @Test
+    public void couponId1_success_test() throws Exception {
+        // given
+        String productId = "1";
+        String couponId = "1";
+
+        // when
+        ResultActions resultActions = mvc.perform(get("/products/amount")
+                .queryParam("product_id", productId)
+                .queryParam("coupon_id", couponId));
+
+        // then
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.name").value("panties"));
+        resultActions.andExpect(jsonPath("$.originPrice").value(100000));
+        resultActions.andExpect(jsonPath("$.discountPrice").value(5000));
+        resultActions.andExpect(jsonPath("$.finalPrice").value(95000));
+    }
+
+    @DisplayName("두개의 couponId을 요청하면, 두개의 할인 금액이 적용 된다.")
+    @Test
+    public void couponId2_success_test() throws Exception {
+        // given
+        String productId = "1";
+        String couponId = "1, 2";
+
+        // when
+        ResultActions resultActions = mvc.perform(get("/products/amount")
+                .queryParam("product_id", productId)
+                .queryParam("coupon_id", couponId));
+
+        // then
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.name").value("panties"));
+        resultActions.andExpect(jsonPath("$.originPrice").value(100000));
+        resultActions.andExpect(jsonPath("$.discountPrice").value(15000));
+        resultActions.andExpect(jsonPath("$.finalPrice").value(85000));
     }
 
     private void dataSetting() {
