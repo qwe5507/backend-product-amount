@@ -28,9 +28,10 @@ public class ProductController {
     @GetMapping("/amount")
     public ResponseEntity<ProductAmountResponse> getProductAmount(
             @RequestParam("product_id") int productId,
-            @RequestParam("coupon_id") int[] couponIds
+            @RequestParam(value = "coupon_id", required = false) int[] couponIds
     ) {
-
+        log.info("product_id : {}", productId);
+        log.info("coupon_id : {}", couponIds);
         parameterValidation(productId, couponIds);
 
         ProductAmountResponse response = productService.getProductAmount(getParam(productId, couponIds));
@@ -42,11 +43,14 @@ public class ProductController {
         if (productId < 1) {
             throw new CustomValidationException("productId", "productId는 1이상 이어야 합니다.");
         }
-        boolean invalidCouponIdExists = Arrays.stream(couponIds)
-                .anyMatch(couponId -> couponId < 1);
 
-        if (invalidCouponIdExists) {
-            throw new CustomValidationException("couponId", "couponId는 1이상 이어야 합니다.");
+        if (couponIds != null) {
+            boolean invalidCouponIdExists = Arrays.stream(couponIds)
+                    .anyMatch(couponId -> couponId < 1);
+
+            if (invalidCouponIdExists) {
+                throw new CustomValidationException("couponId", "couponId는 1이상 이어야 합니다.");
+            }
         }
     }
 
