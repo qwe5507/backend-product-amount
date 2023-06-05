@@ -1,10 +1,13 @@
 package antigravity.domain.entity;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data
+@NoArgsConstructor
+@Getter
 @Entity
 public class PromotionProducts {
     @Id
@@ -16,4 +19,11 @@ public class PromotionProducts {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
+
+    @Builder
+    public PromotionProducts(Integer id, Promotion promotion, Product product) {
+        this.id = id;
+        this.promotion = promotion;
+        this.product = product;
+    }
 }

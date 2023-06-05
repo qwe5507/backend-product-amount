@@ -1,16 +1,14 @@
 package antigravity.domain.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Builder
+
 @NoArgsConstructor
-@AllArgsConstructor
-@Data
+@Getter
 @Entity
 public class Product {
     @Id
@@ -22,4 +20,11 @@ public class Product {
 
     @Column(nullable = false)
     private int price;
+
+    @Builder
+    public Product(Integer id, String name, int price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
 }

@@ -1,11 +1,14 @@
 package antigravity.domain.entity;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+@NoArgsConstructor
+@Getter
 @Entity
 public class Promotion {
     @Id
@@ -29,4 +32,15 @@ public class Promotion {
 
     @Column(nullable = false)
     private LocalDateTime use_ended_at; // 쿠폰 사용가능 종료 기간
+
+    @Builder
+    public Promotion(Integer id, String promotion_type, String name, String discount_type, int discount_value, LocalDateTime use_started_at, LocalDateTime use_ended_at) {
+        this.id = id;
+        this.promotion_type = promotion_type;
+        this.name = name;
+        this.discount_type = discount_type;
+        this.discount_value = discount_value;
+        this.use_started_at = use_started_at;
+        this.use_ended_at = use_ended_at;
+    }
 }
