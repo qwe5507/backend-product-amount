@@ -9,11 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,7 +29,7 @@ public class ProductController {
     public ResponseEntity<ProductAmountResponse> getProductAmount(
             @RequestParam("product_id") int productId,
             @RequestParam("coupon_id") int[] couponIds
-            ) {
+    ) {
 
         parameterValidation(productId, couponIds);
 
