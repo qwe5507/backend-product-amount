@@ -58,22 +58,4 @@ public class ProductController {
 
         return request;
     }
-
-    @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<ResponseDto<String>> handleMissingParameterException(MissingServletRequestParameterException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put(ex.getParameterName(), ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto<>(-1, ex.getMessage(), ex.getParameterName()));
-    }
-
-    @ExceptionHandler(NumberFormatException.class)
-    public ResponseEntity<?> handleMethodArgumentTypeMismatch(NumberFormatException ex) {
-        String errorMessage = "잘못된 요청입니다. 숫자 값을 입력해야 합니다.";
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto<>(-1, errorMessage, null));
-    }
-
-    @ExceptionHandler(CustomValidationException.class)
-    public ResponseEntity<ResponseDto<String>> handleValidationException(CustomValidationException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto<>(-1, ex.getMessage(), ex.getParameter()));
-    }
 }
