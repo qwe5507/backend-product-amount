@@ -139,7 +139,7 @@ public class ProductService {
         // Type Percent 할인 적용
         if (TYPE_PERCENT.equals(discountType)) {
             // Percent 타입
-            if (currentDiscountValue < 1 && currentDiscountValue > 100) {
+            if (currentDiscountValue < 1 || currentDiscountValue > 100) {
                 throw new CustomServerException("올바르지 않은 쿠폰입니다.");
             }
         }
