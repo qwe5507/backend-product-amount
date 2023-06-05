@@ -27,13 +27,13 @@ public class DummyDevInit{
             Promotion promotionCouponAvailablePS = promotionRepository.save(newPromotion("COUPON", "promotion1", "WON", 5000
                     , LocalDateTime.now().minusDays(2), LocalDateTime.now().plusDays(2)));
             //사용가능한, Code 프로모션
-            Promotion promotionCodeAvailablePS = promotionRepository.save(newPromotion("CODE", "promotion2", "WON", 10
+            Promotion promotionCodeAvailablePS = promotionRepository.save(newPromotion("CODE", "promotion2", "PERCENT", 10
                     , LocalDateTime.now().minusDays(2), LocalDateTime.now().plusDays(2)));
             //사용 불가능한, Coupon 프로모션
             Promotion promotionCouponDisabledPS = promotionRepository.save(newPromotion("COUPON", "promotion3", "WON", 5000
                     , LocalDateTime.now().plusDays(5), LocalDateTime.now().plusDays(10)));
             //사용 불가능한, Code 프로모션
-            Promotion promotionCodeDisabledPS = promotionRepository.save(newPromotion("CODE", "promotion4", "WON", 10
+            Promotion promotionCodeDisabledPS = promotionRepository.save(newPromotion("CODE", "promotion4", "PERCENT", 10
                     , LocalDateTime.now().plusDays(5), LocalDateTime.now().plusDays(10)));
 
             promotionProductsRepository.save(newPromotionProducts(productPS, promotionCouponAvailablePS));

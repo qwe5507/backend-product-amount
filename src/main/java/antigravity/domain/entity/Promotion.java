@@ -21,7 +21,7 @@ public class Promotion {
     @Column(nullable = false, length = 20)
     private String name;
 
-    @Column(nullable = false, length = 6)
+    @Column(nullable = false, length = 7)
     private String discount_type; // WON : 금액 할인, PERCENT : %할인
 
     @Column(nullable = false)
